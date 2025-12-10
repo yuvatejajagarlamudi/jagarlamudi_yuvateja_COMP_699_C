@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Street Issue Reporter</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{% url 'home' %}" class="brand">Street Issue Reporter</a>
+        </div>
+
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+                <span class="welcome">Hello, {{ user.username }}</span>
+
+                {% if user.resident %}
+                    <a href="{% url 'accounts:resident_dashboard' %}">Dashboard</a>
+                {% elif user.municipalstaff %}
+                    <a href="{% url 'accounts:staff_dashboard' %}">Dashboard</a>
+                {% elif user.adminprofile %}
+                    <a href="{% url 'accounts:admin_dashboard' %}">Dashboard</a>
+                {% endif %}
+
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a href="{% url 'accounts:register' %}" class="btn">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        {% if messages %}
+            {% for msg in messages %}
+            <div class="alert">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 Street Issue Reporter — All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Municipal Staff Dashboard</h2>
+
+<h3>Assigned Tickets</h3>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Action</th>
+    </tr>
+
+    {% for t in assigned_tickets %}
+    <tr>
+        <td>{{ t.title }}</td>
+        <td>{{ t.status }}</td>
+        <td>{{ t.priority_score }}</td>
+        <td><a href="{% url 'tickets:view' t.id %}">Manage</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to Street Issue Reporter</h1>
+    <p>Report problems in your community and track them in real time.</p>
+
+    {% if not user.is_authenticated %}
+        <a class="btn large" href="{% url 'accounts:register' %}">Get Started</a>
+    {% else %}
+        {% if user.resident %}
+            <a class="btn large" href="{% url 'accounts:resident_dashboard' %}">Go to Dashboard</a>
+        {% elif user.municipalstaff %}
+            <a class="btn large" href="{% url 'accounts:staff_dashboard' %}">Go to Dashboard</a>
+        {% elif user.adminprofile %}
+            <a class="btn large" href="{% url 'accounts:admin_dashboard' %}">Go to Dashboard</a>
+        {% endif %}
+    {% endif %}
+</div>
+
+<section class="features">
+    <div class="feature-box">
+        <h3>📍 Submit Street Issues</h3>
+        <p>Report potholes, water leakage, garbage overflow, damaged signs and more.</p>
+    </div>
+
+    <div class="feature-box">
+        <h3>🛠 Staff Assignment</h3>
+        <p>Municipal teams automatically receive and resolve issues based on priority.</p>
+    </div>
+
+    <div class="feature-box">
+        <h3>📊 Track Progress</h3>
+        <p>Residents and admins can see updates, resolution status and timelines.</p>
+    </div>
+</section>
+{% endblock %}

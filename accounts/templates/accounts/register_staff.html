@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Staff Registration{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <h2>Register as Municipal Staff</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn">Create Staff Account</button>
+    </form>
+</div>
+{% endblock %}

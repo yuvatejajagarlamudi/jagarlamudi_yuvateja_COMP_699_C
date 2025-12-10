@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="stats-grid">
+    <div class="stat-box">Total Tickets: {{ total_tickets }}</div>
+    <div class="stat-box">Pending: {{ pending }}</div>
+    <div class="stat-box">Resolved: {{ resolved }}</div>
+    <div class="stat-box">Overdue: {{ overdue }}</div>
+    <div class="stat-box">Staff: {{ staff_count }}</div>
+    <div class="stat-box">Residents: {{ resident_count }}</div>
+</div>
+
+<a href="{% url 'tickets:list' %}" class="btn">Manage Tickets</a>
+{% endblock %}

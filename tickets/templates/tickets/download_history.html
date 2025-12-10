@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Issue History</h2>
+<p>Use your browser to print/save this page or copy the table content.</p>
+
+<table class="styled-table">
+<thead><tr><th>ID</th><th>Title</th><th>Status</th><th>Created</th></tr></thead>
+<tbody>
+{% for t in tickets %}
+<tr>
+    <td>{{ t.id }}</td>
+    <td>{{ t.issue_title }}</td>
+    <td>{{ t.get_status_display }}</td>
+    <td>{{ t.created_at|date:"Y-m-d H:i" }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<a class="btn-light" href="{% url 'tickets:my_issues' %}">Back</a>
+{% endblock %}

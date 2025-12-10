@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Priority & Overdue Rules</h2>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn-primary" type="submit">Save Rules</button>
+    <a class="btn-light" href="{% url 'accounts:admin_dashboard' %}">Back</a>
+</form>
+{% endblock %}

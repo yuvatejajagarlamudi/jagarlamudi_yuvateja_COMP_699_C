@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Assign Ticket #{{ ticket.id }}</h2>
+
+<div class="card" style="max-width:700px;margin:auto;padding:20px;">
+    
+    <p><strong>Title:</strong> {{ ticket.title }}</p>
+
+    <p><strong>Description:</strong><br>
+        {{ ticket.description|linebreaks }}
+    </p>
+
+    <p><strong>Location:</strong> {{ ticket.location }}</p>
+
+    <hr>
+
+    <h4>Select Staff Member</h4>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <select name="staff_id" required class="form-control" style="max-width:300px;">
+            <option value="">-- Choose Staff --</option>
+
+            {% for s in staff_list %}
+                <option value="{{ s.id }}">
+                    {{ s.user.get_full_name }} ({{ s.staff_level }})
+                </option>
+            {% endfor %}
+        </select>
+
+        <br>
+
+        <button class="btn btn-primary" type="submit">Assign Ticket</button>
+
+        <a class="btn btn-secondary" href="{% url 'tickets:list' %}">
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+{% endblock %}

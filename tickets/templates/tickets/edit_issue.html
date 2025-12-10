@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Edit Issue #{{ ticket.id }}</h2>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn-primary" type="submit">Save</button>
+    <a class="btn-light" href="{% url 'tickets:my_issues' %}">Back</a>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Submit New Issue</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn">Submit Issue</button>
+        <a class="btn ghost" href="{% url 'accounts:resident_dashboard' %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

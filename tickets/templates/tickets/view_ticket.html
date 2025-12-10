@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+
+    <h2>{{ ticket.title }}</h2>
+    <p><strong>Status:</strong> {{ ticket.get_status_display }}</p>
+    <p><strong>Priority:</strong> {{ ticket.priority_score }}</p>
+    <p><strong>Location:</strong> {{ ticket.location }}</p>
+    <p><strong>Submitted by:</strong> {{ ticket.resident.user.get_full_name }} ({{ ticket.resident.user.username }})</p>
+    <p><strong>Created:</strong> {{ ticket.created_at|date:"Y-m-d H:i" }}</p>
+
+    <div class="description">
+        <h4>Description</h4>
+        <p>{{ ticket.description|linebreaks }}</p>
+    </div>
+
+    {% if ticket.image %}
+    <div class="image-preview">
+        <!-- Image is CharField, not ImageField, so no .url -->
+        <img src="/media/{{ ticket.image }}" alt="ticket image" style="max-width:320px;">
+    </div>
+    {% endif %}
+
+    <hr>
+
+    <!-- ========================= -->
+    <!-- STATUS CHANGE (Admin or Assigned Staff Only) -->
+    <!-- ========================= -->
+
+    {% if user.is_authenticated %}
+
+        {% if user.adminprofile %}
+            <!-- ADMIN CAN UPDATE ANY TICKET -->
+            <form method="post" action="{% url 'tickets:view' ticket.id %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn">Update Status</button>
+            </form>
+
+        {% elif user.municipalstaff and ticket.assigned_staff == user.municipalstaff %}
+            <!-- STAFF CAN UPDATE ONLY THEIR ASSIGNED TICKETS -->
+            <form method="post" action="{% url 'tickets:view' ticket.id %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn">Update Status</button>
+            </form>
+        {% endif %}
+
+    {% endif %}
+
+    <!-- ========================= -->
+    <!-- ADMIN ASSIGNMENT SECTION -->
+    <!-- ========================= -->
+
+    {% if user.is_authenticated and user.adminprofile %}
+    <h4>Assign to Staff</h4>
+    <form method="post" action="{% url 'tickets:assign' ticket.id %}">
+        {% csrf_token %}
+        <select name="staff_id" required>
+            <option value="">-- select staff --</option>
+            {% for s in staff_list %}
+                <option value="{{ s.id }}">{{ s.user.get_full_name }} ({{ s.staff_level }})</option>
+            {% endfor %}
+        </select>
+        <button class="btn">Assign</button>
+    </form>
+    {% endif %}
+
+    <br>
+    <a class="btn ghost" href="{% url 'tickets:list' %}">Back to list</a>
+
+</div>
+{% endblock %}
